@@ -8,6 +8,8 @@ const p = [
     "B717-200",
     "A737-3B7"
 ];
+
+//build attribution with string of html
 const Attribution = {
     makeTable(){
         let base = "";

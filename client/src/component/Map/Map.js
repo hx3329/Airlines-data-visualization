@@ -17,7 +17,6 @@ import FullScreen from "ol/control/FullScreen";
 import Attribution from "ol/control/Attribution";
 import ScaleLine from "ol/control/ScaleLine";
 import { Button, Dropdown } from "semantic-ui-react";
-// import * as turf from "turf";
 
 import editStyle from "./Style";
 import attribution from "./Attribution";
@@ -117,6 +116,7 @@ class AppMap extends Component {
       collapsed: false
     });
 
+    //control the attribution style to show the html table
     var att = new Attribution({
       className: "ol-attribution ol-custom-attribution",
       label: "S",
@@ -145,6 +145,7 @@ class AppMap extends Component {
       view: view
     });
 
+    //build flight source for flight layer
     var flightsSource = new VectorSource({
       wrapX: false,
       attributions: attribution.makeTable(),
@@ -180,15 +181,6 @@ class AppMap extends Component {
             }
           }
 
-          // // create bezir curve
-          // var linestring = turf.lineString([
-          //   [from[1], from[0]],
-          //   [from[1] + 0.5, to[0] - 0.3],
-          //   [to[1], to[0]]
-          // ]);
-          //
-          // var bezier = turf.bezier(linestring);
-
           // create an arc circle between the two locations
           var arcGenerator = new arc.GreatCircle(
             { x: from[1], y: from[0] },
@@ -199,10 +191,7 @@ class AppMap extends Component {
           var arcLine = arcGenerator.Arc(500, { offset: 10 });
           if (arcLine.geometries.length === 1) {
             var line = new LineString(arcLine.geometries[0].coords);
-            // var line = new LineString(bezier.geometry.coordinates);
-            // var point =  new Point(arcLine.geometries[0].coords[0]);
             line.transform("EPSG:4326", "EPSG:3857");
-            // point.transform('EPSG:4326', 'EPSG:3857');
 
             var feature = new Feature({
               type: LineString,
@@ -235,9 +224,8 @@ class AppMap extends Component {
       }, timeout);
     }
 
+    //make moving fucntion of line and plane
     const pointsPerMs = 0.1;
-    //第二次生成出来接event的function
-    // const animateFlights = (styles) => (event) => {
     function animateFlights(event) {
       var vectorContext = event.vectorContext;
       var frameState = event.frameState;
@@ -265,8 +253,7 @@ class AppMap extends Component {
           vectorContext.setStyle(style);
           vectorContext.drawGeometry(currentLine);
 
-          //movepoint
-          // var index = Math.round(maxIndex); // point moving with line
+          //movepoint of plane
           if (index < 500) {
             var currentPoint = new Point(coords[index]);
             var airEngine = feature.get("EngineModel");
@@ -317,21 +304,6 @@ class AppMap extends Component {
       return pi_90 - pi_ac;
     }
 
-    //change price color based on map types
-    const findcolor = (e) => {
-      switch (e) {
-        default:
-        case "Road":
-          return "black";
-        case "RoadOnDemand":
-          return "black";
-        case "AerialWithLabels":
-          return "white";
-        case "Aerial":
-          return "white";
-      }
-    };
-
     var animating = true;
     var self = this;
     var flightsLayer = new VectorLayer({
@@ -343,7 +315,7 @@ class AppMap extends Component {
             placement: "line",
             textBaseline: "bottom",
             fill: new Fill({
-              color: findcolor(self.state.selectStyle)
+              color: editStyle.findColor(self.state.selectStyle)
             })
           })
         });

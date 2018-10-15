@@ -5,6 +5,7 @@ const editStyle ={
     col:'',
     style:'',
 
+    //find plane SVG picture with plane type
     findPlane(e){
         let plane;
         switch (e) {
@@ -121,6 +122,7 @@ const editStyle ={
         return plane;
     },
 
+    //find plane color with engine type
     findEngine(e){
         let col;
         switch (e) {
@@ -148,6 +150,7 @@ const editStyle ={
         return col;
     },
 
+    //find line style for class type
     findStyle (e) {
         let style;
         switch (e) {
@@ -196,7 +199,21 @@ const editStyle ={
                 break;
         }
         return style;
-    }
+    },
 
+    //find price word sytle with map type
+    findColor(e){
+        switch (e) {
+            default:
+            case "Road":
+                return "black";
+            case "RoadOnDemand":
+                return "black";
+            case "AerialWithLabels":
+                return "white";
+            case "Aerial":
+                return "white";
+        }
+    }
 }
 export default editStyle;
