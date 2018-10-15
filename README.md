@@ -3,56 +3,56 @@
 - The server side was build with [Express](https://github.com/expressjs/express).
 - UI side build by [Semantic-ui](https://react.semantic-ui.com/).
 - Database is build by [Mongodb](https://www.mongodb.com/).
-- Usermangement with user authentication is build by [OKTA](https://www.okta.com).
+- Map data layer is implementatd by [Openlayers](https://openlayers.org).
 
 ## Step1: install envirnment
 
 * `cd client && npm install` move in client folder to build client evironment.
 * `cd ../server && npm install` move in server folder to build server encironment.
 
-## Step2: Use Okta
+## Step2: Open Layers
 
-Register okta account and get domain `url` and `client_id` from [okta](https://www.okta.com) home page. Then copy them to paste in the client side `app.js`
-You can ignore my domain url'https://dev-783322.oktapreview.com'
+Using [Openlayers](https://openlayers.org/en/latest/apidoc)for displaying map data in web browsers. It is a high-performance, feature-packed library for creating interactive maps on the web. It can display map tiles, vector data and markers loaded from any source on any web page. OpenLayers has been developed to further the use of geographic information of all kinds. It is completely free, Open Source JavaScript, released under the 2-clause BSD License (also known as the FreeBSD).
+
+### Getting Started
+
+Install the [`ol` package](https://www.npmjs.com/package/ol):
+
 ```
-<Router>
-
-                {/*OKta configure copy domian address to instead of https://dev-783322.oktapreview.com/
-                 and client_id 0oafzpuy0pvICjIhI0h7 by yourself from OKTA WebPage
-                 */}
-                <Security
-                    issuer="https://dev-783322.oktapreview.com/oauth2/default"
-                    client_id="0oafzpuy0pvICjIhI0h7"
-                    redirect_uri={window.location.origin + '/implicit/callback'}
-                    onAuthRequired={onAuthRequired}
-                >
-                    <div className="App">
-                        <Layout>
-                            <Switch>
-                                <Route path="/" exact={true} component={Home}/>
-                                <Route path='/implicit/callback' component={ImplicitCallback}/>
-                                {/*use okta loginPage to secure component*/}
-                                <SecureRoute path="/myprofile" component={Myprofile}/>
-                                <SecureRoute path="/group" component={Group}/>
-                                {/*OKTA customer loginPage*/}
-                                {/*<Route*/}
-                                    {/*path="/login"*/}
-                                    {/*render={() => (*/}
-                                        {/*<LoginPage baseUrl="https://dev-783322.oktapreview.com" />*/}
-                                    {/*)}*/}
-                                {/*/>*/}
-                            </Switch>
-                        </Layout>
-                    </div>
-                </Security>
-            </Router>
-        );
-    }
-}
+npm install ol
 ```
-The project provide two ways of using okta login pages. One is default pages provided by OKTA, another one is customization loginpage created by SigninWidget. You can use this [okta react](https://developer.okta.com/quickstart/#/react/nodejs/express) to find more functions.
 
-About signUp, You can configure it in OKTA webpage. It also provide default style and customization.
+Import just what you need for your application:
+
+```js
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import XYZ from 'ol/source/XYZ';
+
+new Map({
+  target: 'map',
+  layers: [
+    new TileLayer({
+      source: new XYZ({
+        url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      })
+    })
+  ],
+  view: new View({
+    center: [0, 0],
+    zoom: 2
+  })
+});
+```
+
+### Supported Browsers
+
+OpenLayers runs on all modern browsers that support [HTML5](https://html.spec.whatwg.org/multipage/) and [ECMAScript 5](http://www.ecma-international.org/ecma-262/5.1/). This includes Chrome, Firefox, Safari and Edge. For older browsers and platforms like Internet Explorer (down to version 9) and Android 4.x, [polyfills](http://polyfill.io) for `requestAnimationFrame` and `Element.prototype.classList` are required, and using the KML format requires a polyfill for `URL`.
+
+### Documentation
+
+Check out the [hosted examples](https://openlayers.org/en/latest/examples/), the [workshop](https://openlayers.org/workshop/) or the [API documentation](https://openlayers.org/en/latest/apidoc/).
 
 ## Step3: Mongodb
 
