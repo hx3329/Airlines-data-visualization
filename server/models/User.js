@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const unique = require('mongoose-unique-validator');
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -11,6 +12,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
     default: ""
   },
   password: {

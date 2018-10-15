@@ -1,5 +1,6 @@
 const User = require("../../models/User");
 const UserSession = require("../../models/UserSession");
+const {performance} = require("perf_hooks");
 
 module.exports = app => {
   /*
@@ -12,45 +13,45 @@ module.exports = app => {
     let { email } = body;
 
     if (errors) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error:invalid login."
       });
     }
     if (!firstName) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: firstName cannot be blank."
       });
     }
 
     if (!lastName) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: lastName cannot be blank."
       });
     }
 
     if (!email) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Email cannot be blank."
       });
     }
     if (!password) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Password cannot be blank."
       });
     }
     if (!address) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Address cannot be blank."
       });
     }
     if (!phone) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Phone cannot be blank."
       });
@@ -58,25 +59,7 @@ module.exports = app => {
 
     email = email.toLowerCase();
     email = email.trim();
-    // Steps:
-    // 1. Verify email doesn't exist
-    // 2. Save
-    User.find(
-      {
-        email: email
-      },
-      (err, previousUsers) => {
-        if (err) {
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        } else if (previousUsers.length > 0) {
-          return res.send({
-            success: false,
-            message: "Error: Account already exist."
-          });
-        }
+
         // Save the new user
         const newUser = new User();
         newUser.email = email;
@@ -87,19 +70,19 @@ module.exports = app => {
         newUser.phone = phone;
         newUser.save((err, user) => {
           if (err) {
-            return res.send({
-              success: false,
-              message: "Error: Server error"
-            });
+                return res.json({
+                    success: false,
+                    message: "Email is already existing"
+                });
           }
-          return res.send({
+          return res.json({
             success: true,
             message: "Signed up"
           });
         });
-      }
-    );
+      console.log(performance.now());
   }); // end of sign up endpoint
+
 
   /*
   * sign in
@@ -111,13 +94,13 @@ module.exports = app => {
     let { email } = body;
 
     if (!email) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Email cannot be blank."
       });
     }
     if (!password) {
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Password cannot be blank."
       });
@@ -132,21 +115,21 @@ module.exports = app => {
       },
       (err, users) => {
         if (err) {
-          return res.send({
+          return res.json({
             success: false,
             message: "Error: Server error"
           });
         }
         //find zero users
         if (users.length != 1) {
-          return res.send({
+          return res.json({
             success: false,
             message: "Error Invalid"
           });
         }
         const user = users[0];
         if (!user.validPassword(password)) {
-          return res.send({
+          return res.json({
             success: false,
             message: "Error Invalid"
           });
@@ -158,12 +141,12 @@ module.exports = app => {
         userSession.save((err, doc) => {
           if (err) {
             console.log(err);
-            return res.send({
+            return res.json({
               success: false,
               message: "Error: server error"
             });
           }
-          return res.send({
+          return res.json({
             success: true,
             message: "Valid sign in",
             token: doc._id //points back userID
@@ -192,19 +175,19 @@ module.exports = app => {
       (err, sessions) => {
         if (err) {
           console.log(err);
-          return res.send({
+          return res.json({
             success: false,
             message: "Error: Server error"
           });
         }
         if (sessions.length != 1) {
-          return res.send({
+          return res.json({
             success: false,
             message: "Error: Invalid"
           });
         } else {
           // DO ACTION
-          return res.send({
+          return res.json({
             success: true,
             message: "Good"
           });
@@ -237,12 +220,12 @@ module.exports = app => {
       (err, sessions) => {
         if (err) {
           console.log(err);
-          return res.send({
+          return res.json({
             success: false,
             message: "Error: Server error"
           });
         }
-        return res.send({
+        return res.json({
           success: true,
           message: "Good"
         });

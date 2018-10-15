@@ -8,7 +8,7 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 
 //u can change the url by your self
-mongoose.connect("mongodb://localhost:27017/login-demo");
+mongoose.connect("mongodb://localhost:27017/week12");
 mongoose.Promise = global.Promise;
 
 var app = express();

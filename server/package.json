@@ -17,6 +17,7 @@
     "mongoose-unique-validator": "^2.0.2",
     "mongoose-validator": "^2.1.0",
     "morgan": "~1.9.0",
+    "perf_hooks": "0.0.1",
     "socket.io": "^2.1.1",
     "string-capitalize-name": "^1.0.3"
   }
