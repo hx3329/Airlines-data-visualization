@@ -53,7 +53,6 @@ class DesktopContainer extends Component {
           <Segment
             inverted
             textAlign="center"
-            // style={{ minHeight: 700, padding: '1em 0em' }}
             vertical
           >
             <Menu
@@ -65,7 +64,6 @@ class DesktopContainer extends Component {
             >
               <Container>
                 <Menu.Item>
-                  {/*<Image src='/logo.png' size='tiny'/>*/}
                 </Menu.Item>
                 <Menu.Item
                   name="home"
@@ -85,7 +83,9 @@ class DesktopContainer extends Component {
                 >
                   Map
                 </Menu.Item>
-                {fakeAuth.isAuthenticated ? (
+                {
+                  //check login or not
+                  fakeAuth.isAuthenticated ? (
                   <Menu.Item position="right">
                       <Button as={Link} to="/data"  color='teal' inverted={!fixed} style={{ marginRight: "0.5em" }}>
                            InputData
@@ -123,7 +123,6 @@ class DesktopContainer extends Component {
             </Menu>
           </Segment>
         </Visibility>
-
         {children}
       </Responsive>
     );

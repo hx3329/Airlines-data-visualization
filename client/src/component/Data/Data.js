@@ -33,7 +33,7 @@ class Data extends Component {
     this.props.socket.on("delete", data => this.handleDataDeleted(data));
   }
 
-  // Fetch data from the back-end
+  // Fetch GET data from the back-end
   fetchDatas() {
     fetch(`${this.server}/api/datas/`)
       .then(response => response.json())
@@ -49,12 +49,14 @@ class Data extends Component {
       });
   }
 
+  //add data
   handleDataAdded(data) {
     let datas = this.state.datas.slice();
     datas.push(data);
     this.setState({ datas: datas });
   }
 
+  //update data
   handleDataUpdated(data) {
     let datas = this.state.datas.slice();
     for (let i = 0, n = datas.length; i < n; i++) {
@@ -71,6 +73,7 @@ class Data extends Component {
     this.setState({ datas: datas });
   }
 
+  //delete data
   handleDataDeleted(data) {
     let datas = this.state.datas.slice();
     datas = datas.filter(u => {
@@ -80,6 +83,8 @@ class Data extends Component {
   }
 
   render() {
+
+    //check online number of back-end
     let online = this.state.online;
     let verb = online <= 1 ? "is" : "are"; // linking verb, if you'd prefer
     let noun = online <= 1 ? "person" : "people";

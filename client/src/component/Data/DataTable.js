@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Table } from "semantic-ui-react";
-
 import InputData from "./InputData";
 import ConfirmDelete from "./ConfirmDelete";
 
 class DataTable extends Component {
   render() {
     let coords = this.props.datas;
+
+    //build table body
     coords = coords.map(coord => (
       <Table.Row key={coord._id}>
         <Table.Cell>{coord.AirSpaceClass}</Table.Cell>

@@ -17,7 +17,7 @@ class ConfirmDelete extends Component {
   handleOpen = () => this.setState({ modalOpen: true });
   handleClose = () => this.setState({ modalOpen: false });
 
-  //delete
+  //DELETE
   handleSubmit(e) {
     let params = e.target.getAttribute("data-coordid");
     fetch(`${this.props.server}/api/datas/${params}`, {

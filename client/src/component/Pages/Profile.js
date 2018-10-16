@@ -13,7 +13,7 @@ class Profile extends Component {
 
         this.logout = this.logout.bind(this);
     }
-
+    //logout in profile
     logout() {
         this.setState({
             isLoading: true

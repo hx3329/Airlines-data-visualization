@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { Message, Button, Form, Select } from "semantic-ui-react";
-// import axios from 'axios';
 
-// const genderOptions = [
-//   { key: 'm', text: 'Male', value: 'm' },
-//   { key: 'f', text: 'Female', value: 'f' },
-//   { key: 'o', text: 'Do Not Disclose', value: 'o' }
-// ]
+//option of class
 const planeClass = [
   { text: "A", value: "A" },
   { text: "B", value: "B" },
@@ -14,6 +9,8 @@ const planeClass = [
   { text: "D", value: "D" },
   { text: "E", value: "E" }
 ];
+
+//option of planemodel
 const planeModel = [
   { text: "A330-203", value: "A330-203" },
   { text: "A320-232", value: "A320-232" },
@@ -23,6 +20,8 @@ const planeModel = [
   { text: "B737-476", value: "B737-476" },
   { text: "B717-200", value: "B717-200" }
 ];
+
+//option of city
 const city = [
   { text: "Adelaide", value: "Adelaide" },
   { text: "Alice Springs", value: "Alice Springs" },
@@ -46,6 +45,8 @@ const city = [
   { text: "Sydney", value: "Sydney" },
   { text: "London", value: "London" }
 ];
+
+//option of engine
 const engine = [
   { text: "CF6-80E142", value: "CF6-80E142" },
   { text: "CFM56-3B1", value: "CFM56-3B1" },
@@ -57,7 +58,6 @@ const engine = [
 class InputDataForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       AirSpaceClass: "",
       From_City: "",
@@ -70,8 +70,7 @@ class InputDataForm extends Component {
       formErrorMessage: ""
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    //  this.handleSelectChange = this.handleSelectChange.bind(this);
+    //bind
     this.handleInputPrice = this.handleInputPrice.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -97,44 +96,39 @@ class InputDataForm extends Component {
     }
   }
 
-  handleInputChange(e) {
-    const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    this.setState({ [name]: value });
-  }
-
+  //onchange of price
   handleInputPrice(e) {
     const target = e.target;
     const value = target.value;
     this.setState({ Price: value });
   }
 
-  // handleSelectChange(e, data) {
-  //     const target = e.target;
-  //     const name=target.name;
-  //   this.setState({[name]: data.value });
-  // }
-
+  //select class
   handleSelectAirSpaceClass = (e, data) => {
     this.setState({ AirSpaceClass: data.value });
   };
 
+  //select fromcity
   handleSelectFromCity = (e, data) => {
     this.setState({ From_City: data.value });
   };
 
+  //select tocity
   handleSelectToCity = (e, data) => {
     this.setState({ To_City: data.value });
   };
 
+  //select aircraftmodel
   handleSelectAircraftModel = (e, data) => {
     this.setState({ AircraftModel: data.value });
   };
+
+  //select engine
   handleSelectEngine = (e, data) => {
     this.setState({ EngineModel: data.value });
   };
 
+  //submit the whole form
   handleSubmit(e) {
     // Prevent browser refresh
     e.preventDefault();
@@ -161,19 +155,21 @@ class InputDataForm extends Component {
       })
     })
       .then(response => {
-        // console.log(response);
         resStatus = response.status;
+        //return json
         return response.json();
       })
+      //here respones will be json
       .then(response => {
         if (resStatus === 200) {
-          console.log(response);
+          //change to success style and report success message
           this.setState({
             formClassName: "success",
             formSuccessMessage: response.msg
           });
 
           if (!this.props.dataID) {
+            //set form to empty
             this.setState({
               AirSpaceClass: "",
               From_City: "",
@@ -182,13 +178,18 @@ class InputDataForm extends Component {
               AircraftModel: "",
               EngineModel: ""
             });
+            //use data.js add function to add result
             this.props.onDataAdded(response.result);
+            //emit socket of add
             this.props.socket.emit("add", response.result);
           } else {
+            //use data.js updatate function to update result
             this.props.onDataUpdated(response.result);
+            //emit socket of update
             this.props.socket.emit("update", response.result);
           }
         } else {
+          //change to warning style and report the warning message
           this.setState({
             formClassName: "warning",
             formErrorMessage: response.msg
@@ -240,15 +241,11 @@ class InputDataForm extends Component {
             value={this.state.To_City}
             onChange={this.handleSelectToCity}
           />
-          {/*<Form.Field*/}
           <Form.Input
-            // control={Select}
             label="Price"
-            // options={genderOptions}
             placeholder="Price"
             type="number"
             value={this.state.Price}
-            // onChange={this.handleSelectChange}
             onChange={this.handleInputPrice}
           />
         </Form.Group>

@@ -43,7 +43,9 @@ class MobileContainer extends Component {
     return (
       <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
         <Sidebar.Pushable>
-          {fakeAuth.isAuthenticated ? (
+          {
+            //check login or not
+            fakeAuth.isAuthenticated ? (
             <Sidebar
               as={Menu}
               animation="uncover"
