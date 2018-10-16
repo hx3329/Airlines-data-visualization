@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Grid, Image, Message, Segment } from "semantic-ui-react";
 import Joi from "joi-browser";
-import logo from "../../logo.jpeg";
+
 
 import {
   getFromStorage

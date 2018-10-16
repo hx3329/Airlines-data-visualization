@@ -59,9 +59,9 @@ const view = new View({
   zoom: 4.5
 });
 
-var layers = [];
+let layers = [];
 
-var col;
+let col;
 
 class AppMap extends Component {
   constructor(props) {
@@ -73,8 +73,10 @@ class AppMap extends Component {
     };
   }
 
+  //use componentDidMount to render and build map layer and flightlayer
   componentDidMount() {
-    // get map airlines
+
+    // get map airlines data
     fetch("/api/datas")
       .then(res => res.json())
       .then(json => {
@@ -85,7 +87,7 @@ class AppMap extends Component {
       });
 
     //select map of bind
-    for (var i = 0; i < options.length; i++) {
+    for (let i = 0; i < options.length; i++) {
       layers.push(
         new TileLayer({
           visible: options[i].value === this.state.selectStyle,
@@ -102,8 +104,10 @@ class AppMap extends Component {
       );
     }
 
-    //customer small overview map
-    var overviewMapControl = new OverviewMap({
+    //create map control of overviewmap and attribution
+    //create small overview map based on customize css style
+    let overviewMapControl = new OverviewMap({
+
       // see in overviewmap-custom.html to see the custom CSS used
       className: "ol-overviewmap ol-custom-overviewmap",
       layers: [
@@ -116,16 +120,18 @@ class AppMap extends Component {
       collapsed: false
     });
 
-    //control the attribution style to show the html table
-    var att = new Attribution({
+    //create attribution control with customize css style to show the html table
+    let att = new Attribution({
       className: "ol-attribution ol-custom-attribution",
       label: "S",
       collapsed: false,
       tipLabel: "Style indicate"
     });
 
-    //map layer
-    var map = new Map({
+    //build map layer
+    let map = new Map({
+      //add control of overviewmap and attribution
+      //create and add control of default overvieMap,fullscreen and scaleline
       controls: defaultControls().extend([
         new FullScreen(),
         overviewMapControl,
@@ -146,33 +152,31 @@ class AppMap extends Component {
     });
 
     //build flight source for flight layer
-    var flightsSource = new VectorSource({
+    let flightsSource = new VectorSource({
       wrapX: false,
       attributions: attribution.makeTable(),
       loader: function() {
-        // var flightsData = flightJson.flights;
-        var flightsData = {};
+        let flightsData = {};
         if (localStorage.getItem("the_main_map")) {
           flightsData = JSON.parse(localStorage.getItem("the_main_map"));
         }
-        var CityData = CityJson;
-        for (var i = 0; i < flightsData.length; i++) {
+        let CityData = CityJson;
+        for (let i = 0; i < flightsData.length; i++) {
 
-          //customerize
           //get Class name
-          var AirSpaceClass = flightsData[i].AirSpaceClass;
+          let AirSpaceClass = flightsData[i].AirSpaceClass;
 
           //get Price
-          var Price = flightsData[i].Price;
+          let Price = flightsData[i].Price;
 
           //get AircraftModel
-          var AircraftModel = flightsData[i].AircraftModel;
+          let AircraftModel = flightsData[i].AircraftModel;
 
           //get EngineModel
-          var EngineModel = flightsData[i].EngineModel;
+          let EngineModel = flightsData[i].EngineModel;
 
           // console.log(AirSpaceClass);
-          for (var j = 0; j < CityData.length; j++) {
+          for (let j = 0; j < CityData.length; j++) {
             if (CityData[j].CityName === flightsData[i].From_City) {
               var from = CityData[j].CityPoint;
             }
@@ -182,18 +186,24 @@ class AppMap extends Component {
           }
 
           // create an arc circle between the two locations
-          var arcGenerator = new arc.GreatCircle(
+          let arcGenerator = new arc.GreatCircle(
             { x: from[1], y: from[0] },
             { x: to[1], y: to[0] },
             { name: "Seattle to DC" }
           );
 
-          var arcLine = arcGenerator.Arc(500, { offset: 10 });
+          //create 500 point coordinates based on from and to points by using arc package function
+          let arcLine = arcGenerator.Arc(500, { offset: 10 });
           if (arcLine.geometries.length === 1) {
-            var line = new LineString(arcLine.geometries[0].coords);
+
+            //use 500 points to build line based on openlayers lineString.
+            let line = new LineString(arcLine.geometries[0].coords);
+
+            //change the coordinates format
             line.transform("EPSG:4326", "EPSG:3857");
 
-            var feature = new Feature({
+            //build feature of line
+            let feature = new Feature({
               type: LineString,
               geometry: line,
               finished: false,
@@ -220,6 +230,8 @@ class AppMap extends Component {
     function addLater(feature, timeout) {
       window.setTimeout(function() {
         feature.set("start", new Date().getTime());
+
+        //add feaure to flightsource
         flightsSource.addFeature(feature);
       }, timeout);
     }
@@ -227,42 +239,41 @@ class AppMap extends Component {
     //make moving fucntion of line and plane
     const pointsPerMs = 0.1;
     function animateFlights(event) {
-      var vectorContext = event.vectorContext;
-      var frameState = event.frameState;
-      var features = flightsSource.getFeatures();
+      let vectorContext = event.vectorContext;
+      let frameState = event.frameState;
+      let features = flightsSource.getFeatures();
 
-      for (var i = 0; i < features.length; i++) {
-        var feature = features[i];
-        var coords = feature.getGeometry().getCoordinates();
-        // if(feature.get('type') === LineString){
+      for (let i = 0; i < features.length; i++) {
+        let feature = features[i];
+        let coords = feature.getGeometry().getCoordinates();
+
         if (!feature.get("finished")) {
           // only draw the lines for which the animation has not finished yet
-          var elapsedTime = frameState.time - feature.get("start");
-          var elapsedPoints = elapsedTime * pointsPerMs;
-          // console.log(elapsedPoints);
+          let elapsedTime = frameState.time - feature.get("start");
+          let elapsedPoints = elapsedTime * pointsPerMs;
 
-          var index = Math.round((10 * elapsedTime) / 1000);
+          let index = Math.round((10 * elapsedTime) / 1000);
           if (index >= coords.length - 2) {
             feature.set("finished", true);
           }
-          var maxIndex = Math.min(elapsedPoints, coords.length);
-          var currentLine = new LineString(coords.slice(0, maxIndex));
+          let maxIndex = Math.min(elapsedPoints, coords.length);
+          let currentLine = new LineString(coords.slice(0, maxIndex));
           // directly draw the line with the vector context
-          var airClass = feature.get("AirSpaceClass");
-          var style = editStyle.findStyle(airClass);
+          let airClass = feature.get("AirSpaceClass");
+          let style = editStyle.findStyle(airClass);
           vectorContext.setStyle(style);
           vectorContext.drawGeometry(currentLine);
 
           //movepoint of plane
           if (index < 500) {
-            var currentPoint = new Point(coords[index]);
-            var airEngine = feature.get("EngineModel");
-            var airPlane = feature.get("AircraftModel");
+            let currentPoint = new Point(coords[index]);
+            let airEngine = feature.get("EngineModel");
+            let airPlane = feature.get("AircraftModel");
 
-            var plane = editStyle.findPlane(airPlane);
+            let plane = editStyle.findPlane(airPlane);
 
             col = editStyle.findEngine(airEngine);
-            var svg =
+            let svg =
               '<svg fill="' +
               col +
               '" width="200" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg"><' +
@@ -270,11 +281,11 @@ class AppMap extends Component {
               plane +
               '"/></svg>';
 
-            var mysvg = new Image();
+            let mysvg = new Image();
             mysvg.src = "data:image/svg+xml," + escape(svg);
 
             //and then declare your style with img and imgSize
-            var planeStyle = new Style({
+            let planeStyle = new Style({
               image: new Icon({
                 opacity: 1,
                 // anchor:[0.5,0.5],
@@ -298,18 +309,18 @@ class AppMap extends Component {
     //change plane direction
     function planeRoation(new_p, old_p) {
       //90 pi
-      var pi_90 = Math.atan2(1, 0);
+      let pi_90 = Math.atan2(1, 0);
       // current pi
-      var pi_ac = Math.atan2(new_p[1] - old_p[1], new_p[0] - old_p[0]);
+      let pi_ac = Math.atan2(new_p[1] - old_p[1], new_p[0] - old_p[0]);
       return pi_90 - pi_ac;
     }
 
-    var animating = true;
-    var self = this;
-    var flightsLayer = new VectorLayer({
+    let animating = true;
+    let self = this;
+    let flightsLayer = new VectorLayer({
       source: flightsSource,
       style: function(feature) {
-        var labelStyle = new Style({
+        let labelStyle = new Style({
           text: new Text({
             font: 'bold 11px "Open Sans", "Arial Unicode MS", "sans-serif"',
             placement: "line",
@@ -335,12 +346,14 @@ class AppMap extends Component {
       }
     });
 
+    //add flightlayer to openlayer
     map.addLayer(flightsLayer);
   }
 
+  //change map style
   handleChange = (e, { value }) => {
     this.setState({ selectStyle: value });
-    for (var i = 0; i < layers.length; i++) {
+    for (let i = 0; i < layers.length; i++) {
       layers[i].setVisible(options[i].value === value);
     }
   };
@@ -361,7 +374,7 @@ class AppMap extends Component {
 
   //rotate around
   onRotateraround = () => {
-    var rotation = view.getRotation();
+    let rotation = view.getRotation();
     view.animate(
       {
         rotation: rotation + Math.PI,
@@ -384,10 +397,9 @@ class AppMap extends Component {
   };
   //fly
   flyTo = (location, done) => {
-    var duration = 2000;
-    // var zoom = view.getZoom();
-    var parts = 2;
-    var called = false;
+    let duration = 2000;
+    let parts = 2;
+    let called = false;
     function callback(complete) {
       --parts;
       if (called) {

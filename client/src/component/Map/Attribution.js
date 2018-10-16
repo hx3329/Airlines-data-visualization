@@ -13,9 +13,9 @@ const p = [
 const Attribution = {
     makeTable(){
         let base = "";
-        for (var z = 0; z < p.length; z++) {
+        for (let z = 0; z < p.length; z++) {
             if (z % 2 === 0) {
-                var str =
+                let str =
                     "<tr>" +
                     '  <th scope="row">' +
                     p[z] +
@@ -42,7 +42,7 @@ const Attribution = {
             }
         }
 
-        var attribution =
+        let attribution =
             '<table class="table table-hover">' +
             "  <thead>" +
             "    <tr>" +
