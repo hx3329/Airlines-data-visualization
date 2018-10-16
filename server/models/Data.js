@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-// const unique = require('mongoose-unique-validator');
 const validate = require("mongoose-validator");
 
+//set validator
 const AirSpaceClassValidator = [
   validate({
     validator: "isLength",
@@ -49,7 +49,9 @@ const EngineModelValidator = [
     message: "EngineModel must not exceed {ARGS[1]} characters."
   })
 ];
-// Define the database model
+
+//Define the database model
+//build mongoose schema
 const DataSchema = new mongoose.Schema({
   AirSpaceClass: {
     type: String,
@@ -83,8 +85,5 @@ const DataSchema = new mongoose.Schema({
     validate: EngineModelValidator
   }
 });
-
-// Use the unique validator plugin
-// DataSchema.plugin(unique, { message: 'That {PATH} is already taken.' });
 
 module.exports = mongoose.model("Data", DataSchema);

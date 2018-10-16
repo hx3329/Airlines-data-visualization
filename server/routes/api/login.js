@@ -57,30 +57,36 @@ module.exports = app => {
       });
     }
 
+    //lowcase and trim the email
     email = email.toLowerCase();
     email = email.trim();
 
-        // Save the new user
-        const newUser = new User();
-        newUser.email = email;
-        newUser.lastName = lastName;
-        newUser.firstName = firstName;
-        newUser.password = newUser.generateHash(password);
-        newUser.address = address;
-        newUser.phone = phone;
-        newUser.save((err, user) => {
-          if (err) {
-                return res.json({
-                    success: false,
-                    message: "Email is already existing"
-                });
-          }
-          return res.json({
-            success: true,
-            message: "Signed up"
-          });
-        });
-      console.log(performance.now());
+    // Save the new user
+    const newUser = new User();
+    newUser.email = email;
+    newUser.lastName = lastName;
+    newUser.firstName = firstName;
+    newUser.address = address;
+    //password need be hashed || use user model function to hash the password built by bcrypt
+    newUser.password = newUser.generateHash(password);
+    newUser.phone = phone;
+    newUser.save((err, user) => {
+      if (err) {
+            //becasue the email is unique, if the email is existing, error will be existing
+            return res.json({
+                success: false,
+                message: "Email is already existing"
+            });
+      }
+      //no error, report success
+      return res.json({
+        success: true,
+        message: "Signed up"
+      });
+    });
+
+  //check the performance
+  console.log(performance.now());
   }); // end of sign up endpoint
 
 
@@ -109,6 +115,7 @@ module.exports = app => {
     email = email.toLowerCase();
     email = email.trim();
 
+    //find email
     User.find(
       {
         email: email
@@ -128,6 +135,7 @@ module.exports = app => {
           });
         }
         const user = users[0];
+        //password has been hashed use user model function to check the password built by bcrypt
         if (!user.validPassword(password)) {
           return res.json({
             success: false,

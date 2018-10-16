@@ -17,7 +17,6 @@ import FullScreen from "ol/control/FullScreen";
 import Attribution from "ol/control/Attribution";
 import ScaleLine from "ol/control/ScaleLine";
 import { Button, Dropdown } from "semantic-ui-react";
-
 import editStyle from "./Style";
 import attribution from "./Attribution";
 import CityJson from "../../utils/City";
@@ -25,8 +24,7 @@ import CityJson from "../../utils/City";
 //Calculate great circles routes as lines in GeoJSON or WKT format.
 var arc = require("arc");
 
-// const styles = ["Road", "RoadOnDemand", "Aerial", "AerialWithLabels"];
-
+//map style option
 const options = [
   {
     text: "Road (static)",
@@ -60,7 +58,6 @@ const view = new View({
 });
 
 let layers = [];
-
 let col;
 
 class AppMap extends Component {

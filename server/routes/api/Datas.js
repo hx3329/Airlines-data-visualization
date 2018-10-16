@@ -1,8 +1,7 @@
 const RateLimit = require("express-rate-limit");
 const stringCapitalizeName = require("string-capitalize-name");
-
 const Data = require("../../models/Data");
-// const Test = require('../../models/Test');
+
 
 // Attempt to limit spam post requests for inserting data
 const minutes = 5;
@@ -21,6 +20,7 @@ const postLimiter = new RateLimit({
 });
 
 module.exports = app => {
+
   // READ (ONE)
   app.get("/api/datas/:id", (req, res) => {
     Data.findById(req.params.id)
@@ -47,6 +47,7 @@ module.exports = app => {
 
   // CREATE
   app.post("/api/datas", postLimiter, (req, res) => {
+    //if from city and to city are the same, report error
     if (req.body.From_City == req.body.To_City) {
       return res.status(400).send({
         success: false,
@@ -54,6 +55,7 @@ module.exports = app => {
       });
     }
 
+    //find the airline in database
     Data.find(
       {
         AirSpaceClass: req.body.AirSpaceClass,
@@ -75,6 +77,7 @@ module.exports = app => {
             msg: "Error: Airline already exist."
           });
         } else {
+          //if no existing || build new one
           let newData = new Data({
             AirSpaceClass: sanitizeName(req.body.AirSpaceClass),
             From_City: req.body.From_City,
@@ -84,6 +87,7 @@ module.exports = app => {
             EngineModel: req.body.EngineModel
           });
 
+          //save
           newData
             .save()
             .then(result => {
@@ -102,7 +106,7 @@ module.exports = app => {
               });
             })
             .catch(err => {
-              console.log(err);
+              //report errors for every features
               if (err.errors) {
                 if (err.errors.AirSpaceClass) {
                   res
@@ -159,6 +163,7 @@ module.exports = app => {
       EngineModel: req.body.EngineModel
     };
 
+    //find one airline by id
     Data.findOneAndUpdate({ _id: req.params.id }, updatedData, {
       runValidators: true,
       context: "query"
@@ -260,8 +265,3 @@ module.exports = app => {
 sanitizeName = name => {
   return stringCapitalizeName(name);
 };
-// sanitizePrice = (price) => {
-//   // Return empty if price is non-numeric
-//   if (isNaN(price) && price != '') return '';
-//   return (price === '') ? price : parseInt(price);
-// }
