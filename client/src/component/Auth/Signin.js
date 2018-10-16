@@ -32,11 +32,12 @@ class LoginPage extends React.Component {
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-
     this.onSignIn = this.onSignIn.bind(this);
   }
 
   componentDidMount() {
+
+    //check the user login or not
     const object = getFromStorage("the_main_app");
     if (object && object.token) {
       const { token } = object;
@@ -70,6 +71,7 @@ class LoginPage extends React.Component {
     this.setState({ signInPassword: e.target.value });
   }
 
+  //signin
   onSignIn() {
     //grap state
     const { signInEmail, signInPassword } = this.state;
@@ -137,9 +139,6 @@ class LoginPage extends React.Component {
       return <div style={Style}>
           <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
             <Grid.Column style={{ maxWidth: 450 }}>
-              {/*<Header as='h1' color='blue' textAlign='center' size='massive'>*/}
-              {/*<Image src='./logo2.jpg' fluid/> Login*/}
-              {/*</Header>*/}
               <Image src={logo} height="200px" width="200px" verticalAlign="middle" />
               <Form className={formClassName} size="large">
                 <Segment stacked>
@@ -163,7 +162,6 @@ class LoginPage extends React.Component {
                 <Message success color="green" header="Nice one!" content={signInError} />
               </Form>
               <Message>
-                {/*forgot passwords? <a href="#">Reset password</a>*/}
                 forgot passwords? Contact Us: hx3329@gmail.com
               </Message>
             </Grid.Column>

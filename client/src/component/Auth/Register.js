@@ -1,11 +1,10 @@
 import React from "react";
-import { Button, Form, Grid, Image, Message, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Message, Segment } from "semantic-ui-react";
 import Joi from "joi-browser";
 
 
 import {
   getFromStorage
-  // setInStorage
 } from "../../utils/storage";
 
 //style
@@ -55,6 +54,7 @@ class SignUpPage extends React.Component {
       formClassName: ""
     };
 
+    //binding
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -66,6 +66,8 @@ class SignUpPage extends React.Component {
   }
 
   componentDidMount() {
+
+    //check the user login or not
     const object = getFromStorage("the_main_app");
     if (object && object.token) {
       const { token } = object;
@@ -90,6 +92,7 @@ class SignUpPage extends React.Component {
       });
     }
   }
+
   //validate the email,password, firstname, lastname, address and phone number
   validate = () => {
     const data = {
@@ -106,31 +109,38 @@ class SignUpPage extends React.Component {
     for (let item of result.error.details) errors[item.path[0]] = item.message;
     return errors;
   };
+
   //onchage of firstName
   handleFirstNameChange(e) {
     this.setState({ signUpFirstName: e.target.value });
   }
+
   //onchage of lastName
   handleLastNameChange(e) {
     this.setState({ signUpLastName: e.target.value });
   }
+
   //onChange of email
   handleEmailChange(e) {
     this.setState({ signUpEmail: e.target.value });
   }
+
   //onchange of Password
   handlePasswordChange(e) {
     this.setState({ signUpPassword: e.target.value });
   }
 
+  //onchange of address
   handleAddressChange(e) {
     this.setState({ signUpAddress: e.target.value });
   }
 
+  //onchange of phone
   handlePhoneChange(e) {
     this.setState({ signUpPhone: e.target.value });
   }
 
+  //register
   onSignUp() {
     //grap state
     const {
@@ -145,8 +155,6 @@ class SignUpPage extends React.Component {
     this.setState({
       isLoading: true
     });
-
-    console.log(this.validate());
 
     //Post request to backend
     fetch("/api/account/signup", {
@@ -230,12 +238,6 @@ class SignUpPage extends React.Component {
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450 }}>
-              {/*<Image*/}
-                {/*src={logo}*/}
-                {/*height="200px"*/}
-                {/*width="200px"*/}
-                {/*verticalAlign="middle"*/}
-              {/*/>*/}
               <Form className={formClassName} size="large">
                 <Segment textAlign="left" stacked>
                   <Form.Field>

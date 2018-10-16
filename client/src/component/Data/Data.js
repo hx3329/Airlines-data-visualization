@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { Container } from "semantic-ui-react";
-// import axios from 'axios';
-// import io from "socket.io-client";
-
 import DataTable from "./DataTable";
 import InputData from "./InputData";
 
@@ -11,8 +8,6 @@ class Data extends Component {
     super(props);
 
     this.server = process.env.REACT_APP_API_URL || "";
-    // this.socket = this.props.socket;
-
     this.state = {
       datas: [],
       online: 0

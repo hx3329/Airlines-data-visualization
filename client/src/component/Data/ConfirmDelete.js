@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Modal } from "semantic-ui-react";
-// import axios from 'axios';
 
 class ConfirmDelete extends Component {
   constructor(props) {
@@ -15,9 +14,10 @@ class ConfirmDelete extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleOpen = e => this.setState({ modalOpen: true });
-  handleClose = e => this.setState({ modalOpen: false });
+  handleOpen = () => this.setState({ modalOpen: true });
+  handleClose = () => this.setState({ modalOpen: false });
 
+  //delete
   handleSubmit(e) {
     let params = e.target.getAttribute("data-coordid");
     fetch(`${this.props.server}/api/datas/${params}`, {
