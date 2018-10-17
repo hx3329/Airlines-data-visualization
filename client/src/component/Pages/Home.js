@@ -6,8 +6,6 @@ import {
   Segment,
   Responsive,
   Grid,
-  Image,
-  List,
   Divider
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
@@ -17,7 +15,7 @@ function handleTest() {
   window.location = "/map";
 }
 /*
-* Heads up! HomepageHeading uses inline styling
+* HomepageHeading uses inline styling
 * */
 const HomepageHeading = ({ mobile }) => (
   <Responsive>
@@ -130,7 +128,7 @@ const HomepageHeading = ({ mobile }) => (
           horizontal
           style={{ margin: "3em 0em", textTransform: "uppercase" }}
         >
-          <a href="#">Case Studies</a>
+          <p>Case Studies</p>
         </Divider>
         <Header as="h3" style={{ fontSize: "2em" }}>
           Did We Tell You About Our Bananas?
