@@ -21,7 +21,7 @@ const postLimiter = new RateLimit({
 
 module.exports = app => {
 
-  // READ (ONE)
+  // Read(ONE)
   app.get("/api/datas/:id", (req, res) => {
     Data.findById(req.params.id)
       .then(result => {
@@ -32,7 +32,7 @@ module.exports = app => {
       });
   });
 
-  // READ (ALL)
+  // Read (ALL)
   app.get("/api/datas", (req, res) => {
     Data.find({})
       .then(result => {
@@ -45,7 +45,7 @@ module.exports = app => {
       });
   });
 
-  // CREATE
+  // Create
   app.post("/api/datas", postLimiter, (req, res) => {
     //if from city and to city are the same, report error
     if (req.body.From_City == req.body.To_City) {
@@ -55,7 +55,7 @@ module.exports = app => {
       });
     }
 
-    //find the airline in database
+    //Find the airline in database
     Data.find(
       {
         AirSpaceClass: req.body.AirSpaceClass,
@@ -77,7 +77,7 @@ module.exports = app => {
             msg: "Error: Airline already exist."
           });
         } else {
-          //if no existing || build new one
+          //if the airline is not exists, then build new one
           let newData = new Data({
             AirSpaceClass: sanitizeName(req.body.AirSpaceClass),
             From_City: req.body.From_City,
@@ -152,7 +152,7 @@ module.exports = app => {
     );
   });
 
-  // UPDATE
+  //Update
   app.put("/api/datas/:id", (req, res) => {
     let updatedData = {
       AirSpaceClass: sanitizeName(req.body.AirSpaceClass),
@@ -163,7 +163,7 @@ module.exports = app => {
       EngineModel: req.body.EngineModel
     };
 
-    //find one airline by id
+    //Find the airline by id
     Data.findOneAndUpdate({ _id: req.params.id }, updatedData, {
       runValidators: true,
       context: "query"
@@ -237,7 +237,7 @@ module.exports = app => {
       });
   });
 
-  // DELETE
+  // Delete
   app.delete("/api/datas/:id", (req, res) => {
     Data.findByIdAndRemove(req.params.id)
       .then(result => {

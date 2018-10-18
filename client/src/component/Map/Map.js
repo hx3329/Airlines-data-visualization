@@ -21,10 +21,10 @@ import editStyle from "./Style";
 import attribution from "./Attribution";
 import CityJson from "../../utils/City";
 
-//Calculate great circles routes as lines in GeoJSON or WKT format.
+// Calculate great circles routes as lines in GeoJSON or WKT format.
 var arc = require("arc");
 
-//map style option
+// Provide the option of map style
 const options = [
   {
     text: "Road (static)",
@@ -47,7 +47,7 @@ const options = [
   }
 ];
 
-//location
+//Create location
 const london = fromLonLat([-0.12755, 51.507222]);
 const rome = fromLonLat([12.5, 41.9]);
 const sydeney = fromLonLat([151.207859, -33.861568]);
@@ -70,10 +70,10 @@ class AppMap extends Component {
     };
   }
 
-  //use componentDidMount to render and build map layer and flightlayer
+  //Use componentDidMount to render and build map layer and flightlayer
   componentDidMount() {
 
-    // get map airlines data
+    // Get map airlines data
     fetch("/api/datas")
       .then(res => res.json())
       .then(json => {
@@ -83,7 +83,7 @@ class AppMap extends Component {
         localStorage.setItem("the_main_map", JSON.stringify(json));
       });
 
-    //select map of bind
+    // Select map of bind
     for (let i = 0; i < options.length; i++) {
       layers.push(
         new TileLayer({
@@ -93,19 +93,16 @@ class AppMap extends Component {
             key:
               "AuD9mcqmkdR1Q2FiUoIuBhTZa2JFG_qJThOkX7fB_BZ0CaOcB7Afq_Wt7oVs4TvE",
             imagerySet: options[i].value
-            // use maxZoom 19 to see stretched tiles instead of the BingMaps
-            // "no photos at this zoom level" tiles
-            // maxZoom: 19
           })
         })
       );
     }
 
-    //create map control of overviewmap and attribution
-    //create small overview map based on customize css style
+    // Create map control of overviewmap and attribution
+    // Create small overview map based on customize css style
     let overviewMapControl = new OverviewMap({
 
-      // see in overviewmap-custom.html to see the custom CSS used
+      // See in overviewmap-custom.html to see the custom CSS used
       className: "ol-overviewmap ol-custom-overviewmap",
       layers: [
         new TileLayer({
@@ -117,7 +114,7 @@ class AppMap extends Component {
       collapsed: false
     });
 
-    //create attribution control with customize css style to show the html table
+    // Create attribution control with customize css style to show the html table
     let att = new Attribution({
       className: "ol-attribution ol-custom-attribution",
       label: "S",
@@ -125,10 +122,10 @@ class AppMap extends Component {
       tipLabel: "Style indicate"
     });
 
-    //build map layer
+    // Build map layer
     let map = new Map({
-      //add control of overviewmap and attribution
-      //create and add control of default overvieMap,fullscreen and scaleline
+      // Add control of overviewmap and attribution
+      // Create and add control of default overvieMap,fullscreen and scaleline
       controls: defaultControls().extend([
         new FullScreen(),
         overviewMapControl,
@@ -142,13 +139,13 @@ class AppMap extends Component {
       interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
       layers: layers,
       // Improve user experience by loading tiles while dragging/zooming. Will make
-      // zooming choppy on mobile or slow devices.
+      // Zooming choppy on mobile or slow devices.
       loadTilesWhileInteracting: true,
       target: "map",
       view: view
     });
 
-    //build flight source for flight layer
+    // Build flight source for flight layer
     let flightsSource = new VectorSource({
       wrapX: false,
       attributions: attribution.makeTable(),
@@ -160,19 +157,19 @@ class AppMap extends Component {
         let CityData = CityJson;
         for (let i = 0; i < flightsData.length; i++) {
 
-          //get Class name
+          // Get Class name
           let AirSpaceClass = flightsData[i].AirSpaceClass;
 
-          //get Price
+          // Get Price
           let Price = flightsData[i].Price;
 
-          //get AircraftModel
+          // Get AircraftModel
           let AircraftModel = flightsData[i].AircraftModel;
 
-          //get EngineModel
+          // Get EngineModel
           let EngineModel = flightsData[i].EngineModel;
 
-          // console.log(AirSpaceClass);
+          // Console.log(AirSpaceClass);
           for (let j = 0; j < CityData.length; j++) {
             if (CityData[j].CityName === flightsData[i].From_City) {
               var from = CityData[j].CityPoint;
@@ -182,24 +179,24 @@ class AppMap extends Component {
             }
           }
 
-          // create an arc circle between the two locations
+          // Create an arc circle between the two locations
           let arcGenerator = new arc.GreatCircle(
             { x: from[1], y: from[0] },
             { x: to[1], y: to[0] },
             { name: "Seattle to DC" }
           );
 
-          //create 500 point coordinates based on from and to points by using arc package function
+          // Create 500 point coordinates based on from and to points by using arc package function
           let arcLine = arcGenerator.Arc(500, { offset: 10 });
           if (arcLine.geometries.length === 1) {
 
-            //use 500 points to build line based on openlayers lineString.
+            // Use 500 points to build line based on openlayers lineString.
             let line = new LineString(arcLine.geometries[0].coords);
 
-            //change the coordinates format
+            // Change the coordinates format
             line.transform("EPSG:4326", "EPSG:3857");
 
-            //build feature of line
+            // Build feature of line
             let feature = new Feature({
               type: LineString,
               geometry: line,
@@ -212,28 +209,28 @@ class AppMap extends Component {
               rainfall: 500
             });
 
-            // add the feature with a delay so that the animation
-            // for all features does not start at the same time
+            // Add the feature with a delay so that the animation
+            // For all features does not start at the same time
             addLater(feature, i * 500);
-            // addLater(pointFeature,i * 500)
-            // addLater(featurePoint,i * 500);
+            // AddLater(pointFeature,i * 500)
+            // AddLater(featurePoint,i * 500);
           }
         }
         map.on("postcompose", animateFlights);
       }
     });
 
-    // add delay
+    // Add the feature of delay
     function addLater(feature, timeout) {
       window.setTimeout(function() {
         feature.set("start", new Date().getTime());
 
-        //add feaure to flightsource
+        // Add feaure to flightsource
         flightsSource.addFeature(feature);
       }, timeout);
     }
 
-    //make moving fucntion of line and plane
+    // Make moving fucntion of line and plane
     const pointsPerMs = 0.1;
     function animateFlights(event) {
       let vectorContext = event.vectorContext;
@@ -245,30 +242,26 @@ class AppMap extends Component {
         let coords = feature.getGeometry().getCoordinates();
 
         if (!feature.get("finished")) {
-          // only draw the lines for which the animation has not finished yet
+          // Only draw the lines for which the animation has not finished yet
           let elapsedTime = frameState.time - feature.get("start");
           let elapsedPoints = elapsedTime * pointsPerMs;
-
           let index = Math.round((10 * elapsedTime) / 1000);
           if (index >= coords.length - 2) {
             feature.set("finished", true);
           }
           let maxIndex = Math.min(elapsedPoints, coords.length);
           let currentLine = new LineString(coords.slice(0, maxIndex));
-          // directly draw the line with the vector context
+          // Directly draw the line with the vector context
           let airClass = feature.get("AirSpaceClass");
           let style = editStyle.findStyle(airClass);
           vectorContext.setStyle(style);
           vectorContext.drawGeometry(currentLine);
-
-          //movepoint of plane
+          // Movepoint of plane
           if (index < 500) {
             let currentPoint = new Point(coords[index]);
             let airEngine = feature.get("EngineModel");
             let airPlane = feature.get("AircraftModel");
-
             let plane = editStyle.findPlane(airPlane);
-
             col = editStyle.findEngine(airEngine);
             let svg =
               '<svg fill="' +
@@ -281,11 +274,10 @@ class AppMap extends Component {
             let mysvg = new Image();
             mysvg.src = "data:image/svg+xml," + escape(svg);
 
-            //and then declare your style with img and imgSize
+            // Then declare your style with img and imgSize
             let planeStyle = new Style({
               image: new Icon({
                 opacity: 1,
-                // anchor:[0.5,0.5],
                 img: mysvg,
                 imgSize: [170, 170],
                 scale: 0.2,
@@ -293,21 +285,21 @@ class AppMap extends Component {
               })
             });
 
-            // draw the movepoint with the vector context
+            // Draw the movepoint with the vector context
             vectorContext.setStyle(planeStyle);
             vectorContext.drawGeometry(currentPoint);
           }
         }
       }
-      // tell OpenLayers to continue the animation
+      // Tell OpenLayers to continue the animation
       map.render();
     }
 
-    //change plane direction
+    // Change plane direction
     function planeRoation(new_p, old_p) {
-      //90 pi
+      // The 90 pi
       let pi_90 = Math.atan2(1, 0);
-      // current pi
+      // Current pi
       let pi_ac = Math.atan2(new_p[1] - old_p[1], new_p[0] - old_p[0]);
       return pi_90 - pi_ac;
     }
@@ -327,8 +319,8 @@ class AppMap extends Component {
             })
           })
         });
-        // if the animation is still active for a feature, do not
-        // render the feature with the layer style
+        // If the animation is still active for a feature, do not
+        // Render the feature with the layer style
         if (animating) {
           labelStyle.getText().setText("$" + feature.get("Price"));
           if (feature.get("finished")) {
@@ -343,11 +335,11 @@ class AppMap extends Component {
       }
     });
 
-    //add flightlayer to openlayer
+    // Add flightlayer to openlayer
     map.addLayer(flightsLayer);
   }
 
-  //change map style
+  // Change map style
   handleChange = (e, { value }) => {
     this.setState({ selectStyle: value });
     for (let i = 0; i < layers.length; i++) {
@@ -355,21 +347,21 @@ class AppMap extends Component {
     }
   };
 
-  //rotateleft
+  // Rotate left
   onRotateleft = () => {
     view.animate({
       rotation: view.getRotation() + Math.PI / 2
     });
   };
 
-  //rotateright
+  // Rotate right
   onRotateright = () => {
     view.animate({
       rotation: view.getRotation() - Math.PI / 2
     });
   };
 
-  //rotate around
+  // Rotate around
   onRotateraround = () => {
     let rotation = view.getRotation();
     view.animate(
@@ -385,14 +377,14 @@ class AppMap extends Component {
       }
     );
   };
-  //pan
+  // Pan
   onPanto = () => {
     view.animate({
       center: london,
       duration: 2000
     });
   };
-  //fly
+  // The function of Fly to
   flyTo = (location, done) => {
     let duration = 2000;
     let parts = 2;

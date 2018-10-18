@@ -13,7 +13,7 @@ class Profile extends Component {
 
         this.logout = this.logout.bind(this);
     }
-    //logout in profile
+    // Logout in profile
     logout() {
         this.setState({
             isLoading: true
@@ -22,7 +22,7 @@ class Profile extends Component {
         const object = getFromStorage("the_main_app");
         if (object && object.token) {
             const { token } = object;
-            //verify token
+            // Verify token
             fetch("/api/account/logout?token=" + token)
                 .then(res => res.json())
                 .then(json => {

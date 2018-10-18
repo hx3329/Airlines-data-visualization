@@ -58,66 +58,124 @@ const HomepageHeading = ({ mobile }) => (
       <Grid container stackable verticalAlign="middle">
         <Grid.Row>
           <Grid.Column width={8}>
+              <Divider
+                  as="h4"
+                  className="header"
+                  horizontal
+                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
+              >
+                  <p>Registration</p>
+              </Divider>
             <Header as="h3" style={{ fontSize: "2em" }}>
-              We Help Companies and Companions
+              Create your account
             </Header>
             <p style={{ fontSize: "1.33em" }}>
-              We can give your company superpowers to do things that they never
-              thought possible. Let us delight your customers and empower your
-              needs... through pure data analytics.
+              Please make sure that you have a valid account of this Demo at first.You can proceeed to the singup page by click the sign up button on the top right of the navbar
             </p>
             <Header as="h3" style={{ fontSize: "2em" }}>
-              We Make Bananas That Can Dance
+              Log in your account
             </Header>
             <p style={{ fontSize: "1.33em" }}>
-              Yes that's right, you thought it was the stuff of dreams, but even
-              bananas can be bioengineered.
+              When the registration completed, you can click the log in button which is next to the sign up.
             </p>
-          </Grid.Column>
-          <Grid.Column floated="right" width={6}>
-            {/*<Image bordered rounded size='large' src='/logo2.jpg' />*/}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column textAlign="center">
-            <Button size="huge">Check Them Out</Button>
+            <Button size="huge">Create your account right now</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
     </Segment>
+      <Segment style={{ padding: "8em 0em" }} vertical>
+          <Container text>
+              <Divider
+                  as="h4"
+                  className="header"
+                  horizontal
+                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
+              >
+                  <p>Main Function</p>
+              </Divider>
+              <Header as="h3" style={{ fontSize: "2em" }}>
+                  What you can do after loginin the demo
+              </Header>
+              <p style={{ fontSize: "1.33em" }}>
+                  Once you login this demo, you can either click "InputData" button for adding a new airline route or click "Map" button for viewing the content you already created.
+              </p>
+              <Button as="a" size="large">
+                  Read More
+              </Button>
+              <Divider
+                  as="h4"
+                  className="header"
+                  horizontal
+                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
+              >
+                  <p>Airline Routes</p>
+              </Divider>
+              <Header as="h3" style={{ fontSize: "2em" }}>
+                  Create your own airline routes
+              </Header>
+              <p style={{ fontSize: "1.33em" }}>
+                  After you tapped "InputData" button, you can create your own airline routes via "Add New" button
+              </p>
+              <Button as="a" size="large">
+                  I'm Still Quite Interested
+              </Button>
+              <Divider
+                  as="h4"
+                  className="header"
+                  horizontal
+                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
+              >
+                  <p>Map</p>
+              </Divider>
+              <Header as="h3" style={{ fontSize: "2em" }}>
+                  Interactive map demo
+              </Header>
+              <p style={{ fontSize: "1.33em" }}>
+                  You can interact with the map demo by changing different options on the bottom of the map.
+              </p>
+              <Button as="a" size="large">
+                  I'm Still Quite Interested
+              </Button>
+          </Container>
+      </Segment>
     <Segment style={{ padding: "0em" }} vertical>
       <Grid celled="internally" columns="equal" stackable>
         <Grid.Row textAlign="center">
           <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
             <Header as="h3" style={{ fontSize: "2em" }}>
-              "What a Company"
+              An Data visualization app
             </Header>
             <p style={{ fontSize: "1.33em" }}>
-              That is what they all say about us
+
             </p>
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
             <Header as="h3" style={{ fontSize: "2em" }}>
-              "I shouldn't have gone with their competitor."
+              Allows you change or view the data of airline routes
             </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              {/*<Image avatar src='/logo.jpg' />*/}
-              <b>Nan</b> Chief Fun Officer Acme Toys
-            </p>
           </Grid.Column>
         </Grid.Row>
       </Grid>
     </Segment>
     <Segment style={{ padding: "8em 0em" }} vertical>
       <Container text>
+          <Divider
+              as="h4"
+              className="header"
+              horizontal
+              style={{ margin: "3em 0em", textTransform: "uppercase" }}
+          >
+              <p>Main Function</p>
+          </Divider>
         <Header as="h3" style={{ fontSize: "2em" }}>
-          Breaking The Grid, Grabs Your Attention
+         What you can do after loginin the demo
         </Header>
         <p style={{ fontSize: "1.33em" }}>
-          Instead of focusing on content creation and hard work, we have learned
-          how to master the art of doing nothing by providing massive amounts of
-          whitespace and generic content that can seem massive, monolithic and
-          worth your attention.
+          Once you login this demo, you can either click "InputData" button for adding a new airline route or click "Map" button for viewing the content you already created.
         </p>
         <Button as="a" size="large">
           Read More
@@ -128,19 +186,34 @@ const HomepageHeading = ({ mobile }) => (
           horizontal
           style={{ margin: "3em 0em", textTransform: "uppercase" }}
         >
-          <p>Case Studies</p>
+          <p>Airline Routes</p>
         </Divider>
         <Header as="h3" style={{ fontSize: "2em" }}>
-          Did We Tell You About Our Bananas?
+          Create your own airline routes
         </Header>
         <p style={{ fontSize: "1.33em" }}>
-          Yes I know you probably disregarded the earlier boasts as non-sequitur
-          filler content, but it's really true. It took years of gene splicing
-          and combinatory DNA research, but our bananas can really dance.
+          After you tapped "InputData" button, you can create your own airline routes via "Add New" button
         </p>
         <Button as="a" size="large">
           I'm Still Quite Interested
         </Button>
+          <Divider
+              as="h4"
+              className="header"
+              horizontal
+              style={{ margin: "3em 0em", textTransform: "uppercase" }}
+          >
+              <p>Map</p>
+          </Divider>
+          <Header as="h3" style={{ fontSize: "2em" }}>
+              Interactive map demo
+          </Header>
+          <p style={{ fontSize: "1.33em" }}>
+              You can interact with the map demo by changing different options on the bottom of the map.
+          </p>
+          <Button as="a" size="large">
+              I'm Still Quite Interested
+          </Button>
       </Container>
     </Segment>
   </Responsive>

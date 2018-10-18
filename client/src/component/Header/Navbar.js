@@ -12,9 +12,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import fakeAuth from "../Auth/fakeAuth";
 
-/*
-* Neither Semantic UI nor Semantic UI React offer a responsive navbar
-* */
 class DesktopContainer extends Component {
   constructor(props) {
     super(props);

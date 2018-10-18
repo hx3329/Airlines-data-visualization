@@ -49,14 +49,14 @@ class Data extends Component {
       });
   }
 
-  //add data
+  //Add data
   handleDataAdded(data) {
     let datas = this.state.datas.slice();
     datas.push(data);
     this.setState({ datas: datas });
   }
 
-  //update data
+  //Update data
   handleDataUpdated(data) {
     let datas = this.state.datas.slice();
     for (let i = 0, n = datas.length; i < n; i++) {
@@ -73,7 +73,7 @@ class Data extends Component {
     this.setState({ datas: datas });
   }
 
-  //delete data
+  //Delete data
   handleDataDeleted(data) {
     let datas = this.state.datas.slice();
     datas = datas.filter(u => {
@@ -84,7 +84,7 @@ class Data extends Component {
 
   render() {
 
-    //check online number of back-end
+    //Check online number of back-end
     let online = this.state.online;
     let verb = online <= 1 ? "is" : "are"; // linking verb, if you'd prefer
     let noun = online <= 1 ? "person" : "people";

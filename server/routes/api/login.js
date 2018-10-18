@@ -57,7 +57,7 @@ module.exports = app => {
       });
     }
 
-    //lowcase and trim the email
+    //Make lowcase and trim the email
     email = email.toLowerCase();
     email = email.trim();
 
@@ -78,20 +78,20 @@ module.exports = app => {
                 message: "Email is already existing"
             });
       }
-      //no error, report success
+      //If there is no error, report success
       return res.json({
         success: true,
         message: "Signed up"
       });
     });
 
-  //check the performance
+  //Check the performance
   console.log(performance.now());
   }); // end of sign up endpoint
 
 
   /*
-  * sign in
+  * Sign in
   * */
   app.post("/api/account/signin", (req, res, next) => {
     const { body } = req;
@@ -115,7 +115,7 @@ module.exports = app => {
     email = email.toLowerCase();
     email = email.trim();
 
-    //find email
+    //Find email
     User.find(
       {
         email: email
@@ -127,7 +127,7 @@ module.exports = app => {
             message: "Error: Server error"
           });
         }
-        //find zero users
+        //Find zero users
         if (users.length != 1) {
           return res.json({
             success: false,
@@ -135,7 +135,7 @@ module.exports = app => {
           });
         }
         const user = users[0];
-        //password has been hashed use user model function to check the password built by bcrypt
+        //Password has been hashed use user model function to check the password built by bcrypt
         if (!user.validPassword(password)) {
           return res.json({
             success: false,
@@ -143,7 +143,7 @@ module.exports = app => {
           });
         }
 
-        //all goods save the correct user
+        //All goods save the correct user
         const userSession = new UserSession();
         userSession.userId = user._id;
         userSession.save((err, doc) => {
@@ -165,8 +165,8 @@ module.exports = app => {
   });
 
   /*
-  * verify the users
-  * validate the user’s session token every time they want to perform an action
+  * Verify the users
+  * Validate the user’s session token every time they want to perform an action
   * */
   app.get("/api/account/verify", (req, res, next) => {
     // Get the token
@@ -194,7 +194,7 @@ module.exports = app => {
             message: "Error: Invalid"
           });
         } else {
-          // DO ACTION
+          // Do action
           return res.json({
             success: true,
             message: "Good"
@@ -205,8 +205,8 @@ module.exports = app => {
   });
 
   /*
-  * logout
-  * set UserSession to deleted
+  * Logout
+  * Set UserSession to deleted
   * */
   app.get("/api/account/logout", (req, res, next) => {
     // Get the token

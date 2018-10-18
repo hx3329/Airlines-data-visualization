@@ -7,7 +7,7 @@ class DataTable extends Component {
   render() {
     let coords = this.props.datas;
 
-    //build table body
+    //Create the table
     coords = coords.map(coord => (
       <Table.Row key={coord._id}>
         <Table.Cell>{coord.AirSpaceClass}</Table.Cell>

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const unique = require('mongoose-unique-validator');
 
-//build mongoose schema
+// Build mongoose schema
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    //set email to primary key which must be unique
+    // Set email as primary key which must be unique
     unique: true,
     default: ""
   },

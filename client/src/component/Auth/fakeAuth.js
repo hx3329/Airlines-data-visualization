@@ -1,6 +1,6 @@
 import {getFromStorage} from "../../utils/storage";
 
-//used to control authenticated of user for router
+//Used to control authenticated of user for router
 const fakeAuth = {
   isAuthenticated: false,
   authenticate(cb) {
@@ -12,7 +12,7 @@ const fakeAuth = {
     setTimeout(cb, 100);
   },
 
-  //logout
+  //Logout
   out(){
       const object = getFromStorage("the_main_app");
       if (object && object.token) {

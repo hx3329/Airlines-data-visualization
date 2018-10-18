@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validate = require("mongoose-validator");
 
-//set validator
+// Set validator
 const AirSpaceClassValidator = [
   validate({
     validator: "isLength",
@@ -50,8 +50,8 @@ const EngineModelValidator = [
   })
 ];
 
-//Define the database model
-//build mongoose schema
+// Define the database model
+// Build the mongoose schema
 const DataSchema = new mongoose.Schema({
   AirSpaceClass: {
     type: String,
@@ -61,7 +61,6 @@ const DataSchema = new mongoose.Schema({
   From_City: {
     type: String,
     required: [true, "From_City is required."],
-    // unique: true,
     validate: From_CityValidator
   },
   To_City: {

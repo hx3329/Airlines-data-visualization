@@ -44,7 +44,6 @@ class MobileContainer extends Component {
       <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
         <Sidebar.Pushable>
           {
-            //check login or not
             fakeAuth.isAuthenticated ? (
             <Sidebar
               as={Menu}
@@ -86,7 +85,6 @@ class MobileContainer extends Component {
               </Menu.Item>
             </Sidebar>
           )}
-
           <Sidebar.Pusher
             dimmed={sidebarOpened}
             onClick={this.handlePusherClick}

@@ -7,12 +7,12 @@ import {
   getFromStorage
 } from "../../utils/storage";
 
-//style
+//Style
 const Style = {
   margin: "20px"
 };
 
-// schema of signup information judgement using joi (valid email, password longer than 5, require firstname and lastname)
+// Schema of signup information judgement using joi (valid email, password longer than 5, require firstname and lastname)
 const schema = {
   email: Joi.string()
     .required()
@@ -54,7 +54,7 @@ class SignUpPage extends React.Component {
       formClassName: ""
     };
 
-    //binding
+    //Binding
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -67,11 +67,11 @@ class SignUpPage extends React.Component {
 
   componentDidMount() {
 
-    //check the user login or not
+    //Check the user login or not
     const object = getFromStorage("the_main_app");
     if (object && object.token) {
       const { token } = object;
-      //verify token
+      //Verify token
       fetch("/api/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {
@@ -93,7 +93,7 @@ class SignUpPage extends React.Component {
     }
   }
 
-  //validate the email,password, firstname, lastname, address and phone number
+  //Validate the email,password, firstname, lastname, address and phone number
   validate = () => {
     const data = {
       email: this.state.signUpEmail,
@@ -110,39 +110,38 @@ class SignUpPage extends React.Component {
     return errors;
   };
 
-  //onchage of firstName
+  //Onchage of firstName
   handleFirstNameChange(e) {
     this.setState({ signUpFirstName: e.target.value });
   }
 
-  //onchage of lastName
+  //Onchage of lastName
   handleLastNameChange(e) {
     this.setState({ signUpLastName: e.target.value });
   }
 
-  //onChange of email
+  //Onchange of email
   handleEmailChange(e) {
     this.setState({ signUpEmail: e.target.value });
   }
 
-  //onchange of Password
+  //Onchange of Password
   handlePasswordChange(e) {
     this.setState({ signUpPassword: e.target.value });
   }
 
-  //onchange of address
+  //Onchange of address
   handleAddressChange(e) {
     this.setState({ signUpAddress: e.target.value });
   }
 
-  //onchange of phone
+  //Onchange of phone
   handlePhoneChange(e) {
     this.setState({ signUpPhone: e.target.value });
   }
 
-  //register
+  //Register
   onSignUp() {
-    //grap state
     const {
       signUpFirstName,
       signUpLastName,
@@ -179,7 +178,7 @@ class SignUpPage extends React.Component {
             signUpError: json.message,
             formClassName: "success",
             isLoading: false,
-            //input box empty
+            //Make the input box empty
             signUpEmail: "",
             signUpPassword: "",
             signUpFirstName: "",
@@ -189,7 +188,7 @@ class SignUpPage extends React.Component {
           });
         } else if (this.validate()) {
           this.setState({
-            // signUpError: json.message,
+            // SignUpError: json.message,
             errors: this.validate(),
             formClassName: "warning",
             isLoading: false
@@ -219,7 +218,7 @@ class SignUpPage extends React.Component {
       formClassName
     } = this.state;
 
-    const err = Object.values(errors); // extract error from error object
+    const err = Object.values(errors); // Extract error from error object
 
     if (isLoading) {
       return (

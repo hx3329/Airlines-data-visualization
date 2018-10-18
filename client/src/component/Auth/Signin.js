@@ -14,7 +14,7 @@ import fakeAuth from "./fakeAuth";
 import Redirect from "react-router-dom/es/Redirect";
 import {Link} from "react-router-dom";
 import logo from "../../logo.jpeg"
-//style
+
 const Style = {
   margin: "20px"
 };
@@ -37,11 +37,11 @@ class LoginPage extends React.Component {
 
   componentDidMount() {
 
-    //check the user login or not
+    //Check the user login or not
     const object = getFromStorage("the_main_app");
     if (object && object.token) {
       const { token } = object;
-      //verify token
+      //Verify token
       fetch("/api/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {
@@ -62,18 +62,18 @@ class LoginPage extends React.Component {
       });
     }
   }
-  //onChange of email
+  //Onchange of email
   handleEmailChange(e) {
     this.setState({ signInEmail: e.target.value });
   }
-  //onchange of Password
+  //Onchange of Password
   handlePasswordChange(e) {
     this.setState({ signInPassword: e.target.value });
   }
 
-  //signin
+  //Signin
   onSignIn() {
-    //grap state
+    //Grap state
     const { signInEmail, signInPassword } = this.state;
 
     this.setState({
