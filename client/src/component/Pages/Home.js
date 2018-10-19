@@ -53,7 +53,7 @@ const HomepageHeading = ({ mobile }) => (
         </Button>
       </Container>
     </Segment>
-
+      {/*Create the introduction page */}
     <Segment style={{ padding: "8em 0em" }} vertical>
       <Grid container stackable verticalAlign="middle">
         <Grid.Row>
@@ -80,68 +80,8 @@ const HomepageHeading = ({ mobile }) => (
             </p>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-            <Button size="huge">Create your account right now</Button>
-          </Grid.Column>
-        </Grid.Row>
       </Grid>
     </Segment>
-      <Segment style={{ padding: "8em 0em" }} vertical>
-          <Container text>
-              <Divider
-                  as="h4"
-                  className="header"
-                  horizontal
-                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
-              >
-                  <p>Main Function</p>
-              </Divider>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                  What you can do after loginin the demo
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>
-                  Once you login this demo, you can either click "InputData" button for adding a new airline route or click "Map" button for viewing the content you already created.
-              </p>
-              <Button as="a" size="large">
-                  Read More
-              </Button>
-              <Divider
-                  as="h4"
-                  className="header"
-                  horizontal
-                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
-              >
-                  <p>Airline Routes</p>
-              </Divider>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                  Create your own airline routes
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>
-                  After you tapped "InputData" button, you can create your own airline routes via "Add New" button
-              </p>
-              <Button as="a" size="large">
-                  I'm Still Quite Interested
-              </Button>
-              <Divider
-                  as="h4"
-                  className="header"
-                  horizontal
-                  style={{ margin: "3em 0em", textTransform: "uppercase" }}
-              >
-                  <p>Map</p>
-              </Divider>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                  Interactive map demo
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>
-                  You can interact with the map demo by changing different options on the bottom of the map.
-              </p>
-              <Button as="a" size="large">
-                  I'm Still Quite Interested
-              </Button>
-          </Container>
-      </Segment>
     <Segment style={{ padding: "0em" }} vertical>
       <Grid celled="internally" columns="equal" stackable>
         <Grid.Row textAlign="center">
@@ -149,9 +89,6 @@ const HomepageHeading = ({ mobile }) => (
             <Header as="h3" style={{ fontSize: "2em" }}>
               An Data visualization app
             </Header>
-            <p style={{ fontSize: "1.33em" }}>
-
-            </p>
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
             <Header as="h3" style={{ fontSize: "2em" }}>
@@ -177,9 +114,6 @@ const HomepageHeading = ({ mobile }) => (
         <p style={{ fontSize: "1.33em" }}>
           Once you login this demo, you can either click "InputData" button for adding a new airline route or click "Map" button for viewing the content you already created.
         </p>
-        <Button as="a" size="large">
-          Read More
-        </Button>
         <Divider
           as="h4"
           className="header"
@@ -194,9 +128,6 @@ const HomepageHeading = ({ mobile }) => (
         <p style={{ fontSize: "1.33em" }}>
           After you tapped "InputData" button, you can create your own airline routes via "Add New" button
         </p>
-        <Button as="a" size="large">
-          I'm Still Quite Interested
-        </Button>
           <Divider
               as="h4"
               className="header"
@@ -211,9 +142,6 @@ const HomepageHeading = ({ mobile }) => (
           <p style={{ fontSize: "1.33em" }}>
               You can interact with the map demo by changing different options on the bottom of the map.
           </p>
-          <Button as="a" size="large">
-              I'm Still Quite Interested
-          </Button>
       </Container>
     </Segment>
   </Responsive>
